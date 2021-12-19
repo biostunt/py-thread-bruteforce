@@ -12,6 +12,7 @@ class BruteDictionaryIterable:
       self.total_combinations = int(math.pow(len(self.alphabet), max_word_length))
       self.current_index = math.pow(len(self.alphabet), min_word_length) 
       print(f"[BRUTE_DICTIONARY_ITERABLE] Selected alphabet -> {''.join(self.alphabet)}; Max word length -> {max_word_length}; Total combinations -> {self.total_combinations}")
+ 
   def get_current_char(self, index):    
     return self.alphabet[index]
 
@@ -45,44 +46,3 @@ class BruteDictionaryIterable:
     word = self.compile_word(indexes)
     self.current_index = self.current_index + 1
     return word
-
-  def next(self) -> int:
-    if self.current_index >= self.total_combinations:
-      return None
-    current = self.current_index
-    indexes = []
-    while(current >= 1):
-      indexes.append(int(current % len(self.alphabet)))
-      current = int(current / len(self.alphabet))
-    indexes.reverse()
-    word = self.compile_word(indexes)
-    self.current_index = self.current_index + 1
-    return word
-
-class BruteCompleteHashes:
-
-  def __init__(self) -> None:
-      self.manager = {}
-
-  def set_hashes(self, hashes: list[str]) -> None:
-    for i in hashes:
-      self.manager[i] = False
-  
-  def is_completed(self) -> bool:
-    for key in self.manager:
-      if self.manager[key] is not True:
-        return False
-    return True
-
-  def mark_completed(self, key: str) -> None:
-    self.manager[key] = True
-
-
-# a = BruteDictionaryIterable()
-# for i in range(456971, 456976 + 100):
-#   print(a.generate_word(i))
-# print(a.split_on_chunks(2))
-# print(a.split_on_chunks(3))
-# print(a.split_on_chunks(4))
-# print(a.split_on_chunks(5))
-# print(a.split_on_chunks(6))

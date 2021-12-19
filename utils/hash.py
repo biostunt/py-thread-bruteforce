@@ -11,7 +11,3 @@ def compare_hash(current: str, target: str | list[str]) -> bool:
     return current.lower() in [hash.lower() for hash in target]
   else:
     return current.lower() == target.lower()
-
-
-# print(compare_hash('123', '123'))
-# print(compare_hash('a1A', ['a1A']))

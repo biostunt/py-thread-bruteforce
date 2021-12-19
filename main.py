@@ -1,6 +1,5 @@
-from multiprocessing.managers import BaseManager
 from arg_parser import create_parser
-from utils.brute import BruteDictionaryIterable, BruteCompleteHashes
+from utils.brute import BruteDictionaryIterable
 from utils.hash import create_hash, compare_hash
 from multiprocessing import Process
 import os
@@ -28,7 +27,6 @@ def start_watching(threads_num: int, hashes: list[str]) -> None:
     runnable('THREAD#ALONE',chunks[0], BruteDictionaryIterable(), hashes)
   end_time = time.time()
   print(f"[PyThreadBruteforce] Elapsed {(end_time - start_time)} seconds")
-  # print(f"[PyThreadBruteforce] Found {len(hash_manager.manager)} hashes")
     
    
 def main() -> None: 
@@ -37,22 +35,18 @@ def main() -> None:
   threads_num = 1
   file = None
   hashes = None
-  file = open('hashes.txt', 'r', encoding='utf-8')
-  str = file.read()
-  file.close()
-  hashes = str.split('\n')
-  # if args['file'] is not None:
-  #   if os.path.isfile(args['file'][0]):
-  #     file = open(args['file'][0], 'r', encoding='utf-8')
-  #     str = file.read()
-  #     file.close()
-  #     hashes = str.split('\n')
-  #   else:
-  #     raise FileNotFoundError(f"File with path {args['file'][0]} did not found..")
+  if args['file'] is not None:
+    if os.path.isfile(args['file'][0]):
+      file = open(args['file'][0], 'r', encoding='utf-8')
+      str = file.read()
+      file.close()
+      hashes = str.split('\n')
+    else:
+      raise FileNotFoundError(f"File with path {args['file'][0]} did not found..")
   if args['hash'] is not None:
     hashes = args['hash']
-  # if args['file'] is None and args['hash'] is None:
-  #   raise ValueError('No file or hash provided. Run with -h to see documentation')
+  if args['file'] is None and args['hash'] is None:
+    raise ValueError('No file or hash provided. Run with -h to see documentation')
   if args['threads'] is None:
     print('[PyThreadBruteforce] The program will run in single thread mode')
   else:
